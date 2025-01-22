@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\BookCollection;
-use App\Http\Resources\BookResource;
-use App\Models\Author;
+use App\Http\Resources\Book\AllBookInfoResource;
+use App\Http\Resources\Book\BookAuthorResource;
+use App\Http\Resources\Book\BookCollection;
+use App\Http\Resources\Book\BookResource;
 use App\Models\Book;
 use Illuminate\Http\Request;
 
@@ -70,19 +71,65 @@ class BookController extends Controller
 
     public function api_index()
     {
-        return new BookCollection(Book::paginate(20));
+        $books = Book::paginate(20);
+
+        if ($books->isEmpty()) {
+            return response()->json();
+        }
+
+        return BookAuthorResource::collection($books);
     }
 
     public function api_one_book_by_isbn(string $isbn)
     {
         $book = Book::where('isbn', $isbn)->first();
-        return BookResource::make($book);
+
+        if (!$book) {
+            return response()->json(['message' => 'Book not found'], 404);
+        }
+
+        return AllBookInfoResource::make($book);
     }
 
     public function api_all_books_by_author(int $author_id)
     {
-        $books = Book::where('author_id', $author_id)->get();
+        $books = Book::where('author_id', $author_id)->paginate(20);
+
+        if ($books->isEmpty()) {
+            return response()->json(['message' => 'No books found'], 404);
+        }
+
         return BookResource::collection($books);
+    }
+
+    public function api_store(Request $request)
+    {
+        $book = Book::where('isbn', $request->isbn)->first();
+
+        if ($book) {
+            return response()->json(['message' => 'Book isbn already exists'], 400);
+        }
+
+        $book = new Book();
+
+        $book->fill($request->all());
+
+        $saved = $book->save();
+        if ($saved) {
+            return response()->json(['message' => 'Book created successfully', 'book' => BookResource::make($book)], 201);
+        }
+
+        return response()->json(['message' => 'Book not created successfully'], 400);
+    }
+
+    public function api_destroy(string $isbn)
+    {
+        $book = Book::where('isbn', $isbn)->first();
+        if ($book) {
+            $book->delete();
+            return response()->json(['message' => 'Book deleted successfully'], 200);
+        }
+        return response()->json(['message' => 'Book not found'], 404);
     }
 
 }

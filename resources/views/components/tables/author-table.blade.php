@@ -88,24 +88,24 @@
                 <div class="overflow-hidden shadow sm:rounded-lg">
                     <table class="min-w-full divide-y divide-gray-600">
                         <thead class="bg-gray-700">
-                        <x-tables.tr>
-                            <x-tables.th>Nombre</x-tables.th>
-                            <x-tables.th>Nacionalidad</x-tables.th>
-                            <x-tables.th>Fecha de nacimiento</x-tables.th>
-                            <x-tables.th>Biografía</x-tables.th>
-                            <x-tables.th>Código Dewey</x-tables.th>
-                            <x-tables.th>Acciones</x-tables.th>
-                        </x-tables.tr>
+                        <x-tables.components.tr>
+                            <x-tables.components.th>Nombre</x-tables.components.th>
+                            <x-tables.components.th>Nacionalidad</x-tables.components.th>
+                            <x-tables.components.th>Fecha de nacimiento</x-tables.components.th>
+                            <x-tables.components.th>Biografía</x-tables.components.th>
+                            <x-tables.components.th>Código Dewey</x-tables.components.th>
+                            <x-tables.components.th>Acciones</x-tables.components.th>
+                        </x-tables.components.tr>
                         </thead>
                         <tbody class="bg-gray-800">
                         @foreach ($authors as $author)
-                            <x-tables.tr :row_number="$loop->iteration">
-                                <x-tables.td :row_number="$loop->iteration">{{ $author->name }}</x-tables.td>
-                                <x-tables.td :row_number="$loop->iteration">{{ $author->nationality }}</x-tables.td>
-                                <x-tables.td :row_number="$loop->iteration">{{ $author->date_of_birth }}</x-tables.td>
-                                <x-tables.td :row_number="$loop->iteration">{{ $author->biography }}</x-tables.td>
-                                <x-tables.td :row_number="$loop->iteration">{{ $author->dewey_code }}</x-tables.td>
-                                <x-tables.td :row_number="$loop->iteration" class="flex gap-3 text-right">
+                            <x-tables.components.tr :row_number="$loop->iteration">
+                                <x-tables.components.td :row_number="$loop->iteration">{{ $author->name }}</x-tables.components.td>
+                                <x-tables.components.td :row_number="$loop->iteration">{{ $author->nationality }}</x-tables.components.td>
+                                <x-tables.components.td :row_number="$loop->iteration">{{ $author->date_of_birth }}</x-tables.components.td>
+                                <x-tables.components.td :row_number="$loop->iteration">{{ $author->biography }}</x-tables.components.td>
+                                <x-tables.components.td :row_number="$loop->iteration">{{ $author->dewey_code }}</x-tables.components.td>
+                                <x-tables.components.td :row_number="$loop->iteration" class="flex gap-3 text-right">
                                     <x-anchor-buttons.primary-button
                                         url="{{ route('authors.edit', ['author' => $author->id]) }}"
                                     >
@@ -116,8 +116,8 @@
                                     >
                                         Eliminar
                                     </x-anchor-buttons.danger-button>
-                                </x-tables.td>
-                            </x-tables.tr>
+                                </x-tables.components.td>
+                            </x-tables.components.tr>
                         @endforeach
                         </tbody>
                     </table>

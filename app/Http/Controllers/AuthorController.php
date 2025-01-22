@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\Author\AllAuthorInfo;
 use App\Http\Resources\AuthorCollection;
 use App\Models\Author;
 use Illuminate\Http\Request;
@@ -91,6 +92,6 @@ class AuthorController extends Controller
 
     public function api_index()
     {
-        return new AuthorCollection(Author::paginate(20));
+        return AllAuthorInfo::collection(Author::paginate(20));
     }
 }
