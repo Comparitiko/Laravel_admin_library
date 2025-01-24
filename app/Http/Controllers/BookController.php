@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Book\StoreBookRequest;
 use App\Http\Resources\Book\AllBookInfoResource;
 use App\Http\Resources\Book\BookAuthorResource;
-use App\Http\Resources\Book\BookCollection;
 use App\Http\Resources\Book\BookResource;
 use App\Models\Book;
 use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      */
@@ -102,17 +103,30 @@ class BookController extends Controller
         return BookResource::collection($books);
     }
 
-    public function api_store(Request $request)
+    public function api_store(StoreBookRequest $request)
     {
+
+        dd($request->messages());
+        // check if book is already exists
         $book = Book::where('isbn', $request->isbn)->first();
 
         if ($book) {
             return response()->json(['message' => 'Book isbn already exists'], 400);
         }
 
+        // Upload cover to storage
+        $path = $request->file('cover')->store('images/covers');
+
+        if (!$path) {
+            return response()->json(['message' => 'Cover not uploaded successfully, try again later'], 400);
+        }
+
+        // Create new book
         $book = new Book();
 
         $book->fill($request->all());
+
+        $book->cover = $path;
 
         $saved = $book->save();
         if ($saved) {
