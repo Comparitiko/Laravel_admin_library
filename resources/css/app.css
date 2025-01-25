@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
-.anchor-button {
+.anchor-button, .button {
     @apply px-4 py-2 text-sm font-medium leading-6 text-center capitalize transition rounded shadow hover:shadow-lg focus:outline-none
+}
+
+a.disabled {
+    @apply cursor-auto pointer-events-none opacity-50;
 }

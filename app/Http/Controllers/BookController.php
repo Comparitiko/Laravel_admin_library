@@ -141,7 +141,7 @@ class BookController extends Controller
         $book = Book::where('isbn', $isbn)->first();
         if ($book) {
             $book->delete();
-            return response()->json(['message' => 'Book deleted successfully'], 200);
+            return response()->json(['message' => 'Book deleted successfully']);
         }
         return response()->json(['message' => 'Book not found'], 404);
     }
