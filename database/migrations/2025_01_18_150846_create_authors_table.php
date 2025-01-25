@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('nationality');
             $table->date('date_of_birth');
             $table->string('biography');
-            $table->string('dewey_code', length: 3);
+            $table->string('dewey_code', length: 3)->unique();
             $table->timestamps();
         });
     }

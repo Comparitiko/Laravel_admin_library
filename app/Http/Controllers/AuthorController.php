@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Author\StoreAuthorRequest;
 use App\Http\Resources\Author\AllAuthorInfo;
 use App\Http\Resources\AuthorCollection;
 use App\Models\Author;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AuthorController extends Controller
 {
@@ -16,6 +18,17 @@ class AuthorController extends Controller
     {
         $authors = Author::paginate(10);
         return view('pages.authors.index', ['authors' => $authors]);
+    }
+
+    public function search(Request $request)
+    {
+        $authors = DB::table('authors')
+            ->where('nationality', 'like', '%' . $request->nationality . '%')
+            ->where('name', 'like', '%' . $request->name . '%')
+            ->paginate(20);
+
+        return view('pages.authors.index', ['authors' => $authors, 'name' => $request->name, 'nationality' =>
+            $request->nationality]);
     }
 
     /**
@@ -29,19 +42,14 @@ class AuthorController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreAuthorRequest $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'nationality' => 'required|string|max:255',
-            'date_of_birth' => 'required|date',
-            'biography' => 'required|string|max:255',
-            'dewey_code' => 'required|string|regex:/^[0-9]{3}$/',
-        ]);
+        // Create new author
+        $author = new Author();
+        $author->fill($request->all());
+        $author->save();
 
-        Author::created($request->all());
-
-        return redirect()->route('pages.authors.index');
+        return redirect()->route('authors.index');
     }
 
     /**

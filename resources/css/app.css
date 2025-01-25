@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .anchor-button, .button {
-    @apply px-4 py-2 text-sm font-medium leading-6 text-center capitalize transition rounded shadow hover:shadow-lg focus:outline-none
+    @apply px-4 py-2 text-sm font-medium leading-6 text-center transition rounded shadow hover:shadow-lg focus:outline-none
 }
 
 a.disabled {

@@ -1,4 +1,4 @@
-@props(['authors'])
+@props(['authors', 'name' => '', 'nationality' => ''])
 
 <div class="p-4 bg-gray-800 border border-gray-700 rounded-lg shadow-sm sm:p-6 ">
     <!-- Card header -->
@@ -13,26 +13,28 @@
         </div>
         <div class="items-center sm:flex">
             <x-forms.components.form
-                action="{{ route('authors.store') }}"
-                method="POST"
-                class="flex items-center space-x-4">
+                action="{{ route('authors.search') }}"
+                method="GET"
+                class="flex flex-wrap gap-2 items-center space-x-4">
                 <div class="relative">
                     <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                         <x-icons.user />
                     </div>
-                    <input name="name" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm
+                    <input name="name" type="search" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm
                     rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2.5
                     dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white
-                    dark:focus:ring-primary-500 dark:focus:border-primary-500 datepicker-input" placeholder="Nombre">
+                    dark:focus:ring-primary-500 dark:focus:border-primary-500 datepicker-input" placeholder="Nombre"
+                           value="{{ $name }}">
                 </div>
                 <div class="relative">
                     <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                         <x-icons.flag />
                     </div>
-                    <input name="nationality" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm
+                    <input name="nationality" type="search" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm
                     rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2.5
                     dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white
-                    dark:focus:ring-primary-500 dark:focus:border-primary-500 datepicker-input" placeholder="Nacionalidad">
+                    dark:focus:ring-primary-500 dark:focus:border-primary-500 datepicker-input"
+                           placeholder="Nacionalidad" value="{{ $nationality }}">
                 </div>
                 <div>
                     <button class="button bg-blue-500 hover:bg-blue-600 text-white" name="search">Buscar</button>
