@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Author\StoreAuthorRequest;
+use App\Http\Requests\Author\UpdateAuthorRequest;
 use App\Http\Resources\Author\AllAuthorInfo;
 use App\Http\Resources\AuthorCollection;
 use App\Models\Author;
@@ -25,7 +26,7 @@ class AuthorController extends Controller
         $authors = DB::table('authors')
             ->where('nationality', 'like', '%' . $request->nationality . '%')
             ->where('name', 'like', '%' . $request->name . '%')
-            ->paginate(20);
+            ->paginate(10);
 
         return view('pages.authors.index', ['authors' => $authors, 'name' => $request->name, 'nationality' =>
             $request->nationality]);
@@ -53,35 +54,18 @@ class AuthorController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(Author $author)
-    {
-      //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      */
     public function edit(Author $author)
     {
-        dd($author);
-        return view('authors.edit');
+        return view('pages.authors.edit-author', ['author' => $author]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Author $author)
+    public function update(UpdateAuthorRequest $request, Author $author)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'nationality' => 'required|string|max:255',
-            'date_of_birth' => 'required|date',
-            'biography' => 'required|string|max:255',
-            'dewey_code' => 'required|string|regex:/^[0-9]{3}$/',
-        ]);
-
         $author->update($request->all());
 
         return redirect()->route('authors.index');
@@ -100,6 +84,6 @@ class AuthorController extends Controller
 
     public function api_index()
     {
-        return AllAuthorInfo::collection(Author::paginate(20));
+        return AllAuthorInfo::collection(Author::paginate(10));
     }
 }

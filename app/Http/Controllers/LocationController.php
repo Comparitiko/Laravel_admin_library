@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Location\StoreLocationRequest;
+use App\Models\Book;
 use App\Models\Location;
 use Illuminate\Http\Request;
 
@@ -12,7 +14,8 @@ class LocationController extends Controller
      */
     public function index()
     {
-        //
+        $locations = Location::paginate(10);
+        return view('pages.locations.index', ['locations' => $locations]);
     }
 
     /**
@@ -20,39 +23,20 @@ class LocationController extends Controller
      */
     public function create()
     {
-        //
+        return view('pages.locations.create-location');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreLocationRequest $request)
     {
-        //
-    }
+        // Create new location
+        $location = new Location();
+        $location->fill($request->all());
+        $location->save();
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Location $location)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Location $location)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Location $location)
-    {
-        //
+        return redirect()->route('locations.index');
     }
 
     /**
@@ -60,6 +44,14 @@ class LocationController extends Controller
      */
     public function destroy(Location $location)
     {
-        //
+        $location->delete();
+        return redirect()->route('locations.index');
+    }
+
+    public function show_books(Location $location)
+    {
+        $books = Book::where('location_id', $location->id)->paginate(10);
+        dd($books);
+        return view('pages.books.index', ['books' => $books]);
     }
 }
