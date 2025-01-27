@@ -45,6 +45,7 @@ Route::name('locations.')->prefix('locations')->group(function () {
 // Books routes
 Route::name('books.')->prefix('books')->group(function () {
     Route::get('/', [BookController::class, 'index'])->name('index');
+    Route::get('/search', [BookController::class, 'search'])->name('search');
     Route::get('/${book}', [BookController::class, 'show'])->name('show');
     Route::get('/create', [BookController::class, 'create'])->name('create');
     Route::post('/store', [BookController::class, 'store'])->name('store');

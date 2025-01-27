@@ -8,6 +8,7 @@ use App\Http\Resources\Book\BookAuthorResource;
 use App\Http\Resources\Book\BookResource;
 use App\Models\Book;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class BookController extends Controller
 {
@@ -17,7 +18,21 @@ class BookController extends Controller
      */
     public function index()
     {
-        //
+        $books = Book::paginate(10);
+        return view('pages.books.index', ['books' => $books]);
+    }
+
+    public function search(Request $request) {
+        // Search books by title, isbn and author
+        $books = Book::with(['author', 'location'])
+            ->where('isbn', 'like', '%' . $request->isbn . '%')
+            ->where('title', 'like', '%' . $request->title . '%')
+            ->whereHas('author', function ($query) use ($request) {
+                $query->where('name', 'like', '%' . $request->author . '%');
+            })
+            ->paginate(10);
+
+        return view('pages.books.index', ['books' => $books, 'title' => $request->title, 'isbn' => $request->isbn, 'author' => $request->author]);
     }
 
     /**
@@ -65,7 +80,8 @@ class BookController extends Controller
      */
     public function destroy(Book $book)
     {
-        //
+        $book->delete();
+        return redirect()->route('books.index');
     }
 
     /// API METHODS ///

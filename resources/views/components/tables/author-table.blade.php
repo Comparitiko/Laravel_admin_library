@@ -8,7 +8,7 @@
             <x-anchor-buttons.primary-button
                 url="{{ route('authors.create') }}"
             >
-                Crear nuevo autor
+                Añadir un nuevo autor
             </x-anchor-buttons.primary-button>
         </div>
         <div class="items-center sm:flex">
