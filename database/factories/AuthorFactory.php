@@ -21,7 +21,7 @@ class AuthorFactory extends Factory
             'nationality' => $this->faker->country,
             'date_of_birth' => $this->faker->date,
             'biography' => $this->faker->sentence(5),
-            'dewey_code' => str_pad($this->faker->numberBetween(0, 999), 3, '0', STR_PAD_LEFT)
+            'dewey_code' => $this->faker->unique()->numerify(str_pad('', 3, '#')),
         ];
     }
 }
