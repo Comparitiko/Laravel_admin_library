@@ -51,7 +51,6 @@ class LocationController extends Controller
     public function show_books(Location $location)
     {
         $books = Book::where('location_id', $location->id)->paginate(10);
-        dd($books);
-        return view('pages.books.index', ['books' => $books]);
+        return view('pages.locations.show_books', ['location' => $location, 'books' => $books]);
     }
 }

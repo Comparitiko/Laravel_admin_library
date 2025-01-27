@@ -34,7 +34,6 @@
             required
             value="{{ old('shelf_number')}}"
         />
-
         <x-buttons.primary-button>Añadir localización</x-buttons.primary-button>
     </x-forms.components.form>
 </div>
