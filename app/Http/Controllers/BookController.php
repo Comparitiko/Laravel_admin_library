@@ -6,6 +6,7 @@ use App\Http\Requests\Book\StoreBookRequest;
 use App\Http\Resources\Book\AllBookInfoResource;
 use App\Http\Resources\Book\BookAuthorResource;
 use App\Http\Resources\Book\BookResource;
+use App\Models\Author;
 use App\Models\Book;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -40,7 +41,9 @@ class BookController extends Controller
      */
     public function create()
     {
-        //
+        $authorsNames = Author::pluck('name')->toArray();
+
+        return view('pages.books.create-book');
     }
 
     /**
@@ -121,8 +124,6 @@ class BookController extends Controller
 
     public function api_store(StoreBookRequest $request)
     {
-
-        dd($request->messages());
         // check if book is already exists
         $book = Book::where('isbn', $request->isbn)->first();
 
