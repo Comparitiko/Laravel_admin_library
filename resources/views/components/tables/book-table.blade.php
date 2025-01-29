@@ -108,7 +108,11 @@
     <div class="flex items-center justify-between pt-3 sm:pt-6">
         <div>
             <a
-                href="{{ $books->previousPageUrl() }}"
+                @if($author !== '' || $title !== '' || $isbn !== '')
+                    href="{{ $books->previousPageUrl() }}&author={{ $author }}&title={{ $title }} &isbn={{ $isbn }}"
+                @else
+                    href="{{ $books->previousPageUrl() }}"
+                @endif
                 class="inline-flex items-center p-2 text-xs font-medium uppercase rounded-lg text-white sm:text-sm
                 hover:bg-gray-700 {{ $books->currentPage() === 1 ? 'disabled' : '' }}"
             >
@@ -120,7 +124,11 @@
         $books->lastPage() }}</p>
         <div class="flex-shrink-0">
             <a
-                href="{{ $books->nextPageUrl() }}"
+                @if($author !== '' || $title !== '' || $isbn !== '')
+                    href="{{ $books->nextPageUrl() }}&author={{ $author }}&title={{ $title }} &isbn={{ $isbn }}"
+                @else
+                    href="{{ $books->nextPageUrl() }}"
+                @endif
                 class="inline-flex items-center p-2 text-xs font-medium uppercase rounded-lg text-white sm:text-sm
                 hover:bg-gray-700 {{ $books->lastPage() === $books->currentPage() ? 'disabled' : '' }}"
             >

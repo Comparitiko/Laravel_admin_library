@@ -90,7 +90,11 @@
     <div class="flex items-center justify-between pt-3 sm:pt-6">
         <div>
             <a
-                href="{{ $authors->previousPageUrl() }}"
+                @if($name !== '' || $nationality !== '')
+                    href="{{ $authors->previousPageUrl() }}&name={{ $name }}&nationality={{ $nationality }}"
+                @else
+                    href="{{ $authors->previousPageUrl() }}"
+                @endif
                 class="inline-flex items-center p-2 text-xs font-medium uppercase rounded-lg text-white sm:text-sm
                 hover:bg-gray-700 {{ $authors->currentPage() === 1 ? 'disabled' : '' }}"
             >
@@ -101,7 +105,11 @@
         <p class="text-white">Página <span class="text-red-400">{{ $authors->currentPage() }}</span> de {{ $authors->lastPage() }}</p>
         <div class="flex-shrink-0">
             <a
-                href="{{ $authors->nextPageUrl() }}"
+                @if($name !== '' || $nationality !== '')
+                    href="{{ $authors->nextPageUrl() }}&name={{ $name }}&nationality={{ $nationality }}"
+                @else
+                    href="{{ $authors->nextPageUrl() }}"
+                @endif
                 class="inline-flex items-center p-2 text-xs font-medium uppercase rounded-lg text-white sm:text-sm
                 hover:bg-gray-700 {{ $authors->lastPage() === $authors->currentPage() ? 'disabled' : '' }}"
             >
