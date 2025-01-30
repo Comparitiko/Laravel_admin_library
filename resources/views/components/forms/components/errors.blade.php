@@ -4,6 +4,6 @@
             class="text-red-500 text-xs font-bold tracking-wide mb-1"
         >
             {{ $error }}
-        </small>
+        </small><br>
     @endforeach
 @endif

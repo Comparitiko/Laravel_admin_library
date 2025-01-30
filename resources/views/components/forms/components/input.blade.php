@@ -2,9 +2,9 @@
     'name',
     'id',
     'type',
-    'placeholder',
     'label',
     'value' => '',
+    'placeholder' => '',
 ])
 
 <div class="mb-5">

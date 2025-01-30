@@ -8,8 +8,8 @@ use App\Http\Resources\Book\BookAuthorResource;
 use App\Http\Resources\Book\BookResource;
 use App\Models\Author;
 use App\Models\Book;
+use App\Models\Location;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class BookController extends Controller
 {
@@ -41,17 +41,43 @@ class BookController extends Controller
      */
     public function create()
     {
-        $authorsNames = Author::pluck('name')->toArray();
+        // Get all possible names from database for select inputs
+        $authors = Author::select('name', 'id')->get();
+        $libraries = Location::select('library_name', 'id')->get();
+        $states = Book::select('state')->distinct()->get();;
 
-        return view('pages.books.create-book');
+
+
+        return view('pages.books.create-book', [
+            'authors' => $authors,
+            'libraries' => $libraries,
+            'bookStates' => $states,
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreBookRequest $request)
     {
-        //
+        // Upload cover to storage
+        $path = $request->file('cover')->store('images/covers');
+
+        if (!$path) {
+            return redirect()->back()->withErrors(['cover' => 'La portada del libro no pudo ser subida, pruebe de nuevo más tarde']);
+        }
+
+        // Create new book with the data from the request and the uploaded cover url
+        $book = new Book();
+        $book->fill($request->all());
+        $book->cover = $path;
+        $isSaved = $book->save();
+
+        if (!$isSaved) {
+            return redirect()->back()->with(['book' => 'El libro no pudo ser creado, pruebe de nuevo más tarde']);
+        }
+
+        return redirect()->route('books.index');
     }
 
     /**

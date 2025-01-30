@@ -24,7 +24,7 @@ class StoreBookRequest extends FormRequest
         return [
             'title' => ['required', 'string', 'max:255'],
             'isbn' => ['required', 'string', 'unique:books,isbn'],
-            'cover' => ['required', 'mimes:jpg,png,jpeg,webp'],
+            'cover' => ['required'],
             'publication_year' => ['required', 'integer', 'min:1900', 'max:'. date('Y')],
             'state' => ['required', 'in:disponible,prestado,extraviado'],
             'author_id' => ['required', 'integer', 'exists:authors,id'],
@@ -39,7 +39,6 @@ class StoreBookRequest extends FormRequest
             'isbn.required' => 'El ISBN es obligatorio',
             'isbn.unique' => 'El ISBN ya existe',
             'cover.required' => 'El archivo es obligatorio',
-            'cover.mimes' => 'El archivo debe ser de tipo :values',
             'publication_year.required' => 'La fecha de publicación es obligatoria',
             'publication_year.integer' => 'La fecha de publicación debe ser un número entero',
             'publication_year.min' => 'La fecha de publicación debe ser mayor o igual a :min',
@@ -47,8 +46,10 @@ class StoreBookRequest extends FormRequest
             'state.required' => 'El estado es obligatorio',
             'state.in' => 'El estado debe ser :values',
             'author_id.required' => 'El autor es obligatorio',
+            'author_id.integer' => 'Debes seleccionar un autor válido',
             'author_id.exists' => 'El autor no existe',
             'location_id.required' => 'La ubicación es obligatoria',
+            'location_id.integer' => 'Debes seleccionar una ubicación válida',
             'location_id.exists' => 'La ubicación no existe',
         ];
     }
