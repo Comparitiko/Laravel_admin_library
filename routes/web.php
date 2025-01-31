@@ -9,9 +9,10 @@ use App\Http\Controllers\AuthorController;
 
 // Index route
 Route::get('/', [LibraryController::class, 'index'])->name('index');
-
 // Generate Report route
 Route::get('/report', [LibraryController::class, 'report'])->name('report');
+// Library search route
+Route::get('/search', [LibraryController::class, 'search'])->name('search');
 
 // Authors routes
 Route::name('authors.')->prefix('authors')->group(function () {
