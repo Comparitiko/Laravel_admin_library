@@ -1,26 +1,17 @@
 <?php
 
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\LibraryController;
 use App\Http\Controllers\LocationController;
-use App\Models\Author;
-use Barryvdh\Snappy\Facades\SnappyPdf as PDF;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AuthorController;
 
 // Index route
-Route::get('/', [AuthorController::class, 'index'])->name('index');
+Route::get('/', [LibraryController::class, 'index'])->name('index');
 
 // Generate Report route
-Route::get('/report', function () {
-    $filename = date('Y-m-d') . '.pdf';
-
-    $authors = Author::paginate(20);
-
-    return PDF::loadView('pages.authors.index', ['authors' => $authors])
-        ->setOption('lowquality', false)
-        ->inline($filename);
-})->name('pdf');
+Route::get('/report', [LibraryController::class, 'report'])->name('report');
 
 // Authors routes
 Route::name('authors.')->prefix('authors')->group(function () {

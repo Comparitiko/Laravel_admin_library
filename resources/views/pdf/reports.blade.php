@@ -1,4 +1,7 @@
 <x-layouts.simple-layout title="{{ $filename }}">
-    <h1 class="text-red-500 text-center text-6xl">Reportes</h1>
-    <p>{{ $filename }}</p>
+    <main class="bg-slate-700 px-10 py-52 sm:py-20 min-h-screen">
+        <x-tables.library-table
+            :books="$books"
+        />
+    </main>
 </x-layouts.simple-layout>
