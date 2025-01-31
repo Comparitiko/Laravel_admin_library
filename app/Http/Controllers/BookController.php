@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Book\StoreBookRequest;
+use App\Http\Requests\Book\UpdateBookRequest;
 use App\Http\Resources\Book\AllBookInfoResource;
 use App\Http\Resources\Book\BookAuthorResource;
 use App\Http\Resources\Book\BookResource;
@@ -85,7 +86,9 @@ class BookController extends Controller
      */
     public function show(Book $book)
     {
-        //
+        return view('pages.books.show-book', [
+            'book' => $book,
+        ]);
     }
 
     /**
@@ -93,15 +96,32 @@ class BookController extends Controller
      */
     public function edit(Book $book)
     {
-        //
+        // Get all possible names from database for select inputs
+        $authors = Author::select('name', 'id')->get();
+        $libraries = Location::select('library_name', 'id')->get();
+        $states = Book::select('state')->distinct()->get();;
+
+        return view('pages.books.edit-book', [
+            'book' => $book,
+            'authors' => $authors,
+            'libraries' => $libraries,
+            'bookStates' => $states,
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Book $book)
+    public function update(UpdateBookRequest $request, Book $book)
     {
-        //
+        // Update data
+        $book->update($request->validated());
+        // Save data
+        if ($book->save()) {
+            return redirect()->route('books.index');
+        }
+
+        return redirect()->back();
     }
 
     /**

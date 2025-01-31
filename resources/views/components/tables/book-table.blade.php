@@ -72,7 +72,11 @@
                         <tbody class="bg-gray-800">
                         @foreach ($books as $book)
                             <x-tables.components.tr :row_number="$loop->iteration">
-                                <x-tables.components.td :row_number="$loop->iteration">{{ $book->title }}</x-tables.components.td>
+                                <x-tables.components.td :row_number="$loop->iteration"><a href="{{route('books.show', [
+                                    'book' => $book->id
+                                    ])
+                                }}">{{$book->title
+                                }}</a></x-tables.components.td>
                                 <x-tables.components.td :row_number="$loop->iteration">{{ $book->isbn
                                 }}</x-tables.components.td>
                                 <x-tables.components.td :row_number="$loop->iteration">{{ $book->publication_year

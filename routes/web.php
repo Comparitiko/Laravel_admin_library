@@ -50,6 +50,6 @@ Route::name('books.')->prefix('books')->group(function () {
     Route::get('/create', [BookController::class, 'create'])->name('create');
     Route::post('/store', [BookController::class, 'store'])->name('store');
     Route::get('/edit/${book}', [BookController::class, 'edit'])->name('edit');
-    Route::post('/update/${book}', [BookController::class, 'create'])->name('update');
+    Route::post('/update/${book}', [BookController::class, 'update'])->name('update');
     Route::get('//delete/${book}', [BookController::class, 'destroy'])->name('destroy');
 });

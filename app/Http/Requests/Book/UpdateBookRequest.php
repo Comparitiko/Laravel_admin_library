@@ -22,10 +22,9 @@ class UpdateBookRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'isbn' => ['string', 'unique:books,isbn'],
             'title' => ['string', 'max:255'],
             'cover' => ['mimes:jpg,png,jpeg,webp'],
-            'publication_year' => ['integer', 'min:1900', 'max'.date('Y')],
+            'publication_year' => ['integer', 'min:1900', 'max:'.date('Y')],
             'state' => ['in:disponible,prestado,extraviado'],
             'author_id' => ['integer', 'exists:authors,id'],
             'location_id' => ['integer', 'exists:locations,id'],
